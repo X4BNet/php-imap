@@ -170,4 +170,3 @@ class PaginatorTest extends TestCase {
         self::assertSame('/custom/path', Paginator::resolveCurrentPath());
     }
 }
-

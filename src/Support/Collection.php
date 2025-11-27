@@ -128,9 +128,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate {
                 return $default;
             }
 
-            foreach ($this->items as $item) {
-                return $item;
-            }
+            return reset($this->items);
         }
 
         foreach ($this->items as $key => $value) {
@@ -155,7 +153,8 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate {
                 return $default;
             }
 
-            return end($this->items) ?: $default;
+            $values = array_values($this->items);
+            return $values[count($values) - 1] ?? $default;
         }
 
         return $this->filter($callback)->last(null, $default);
