@@ -12,8 +12,6 @@
 
 namespace Webklex\PHPIMAP\Support;
 
-use Illuminate\Support\Collection;
-
 /**
  * Class FlagCollection
  *

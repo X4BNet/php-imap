@@ -14,8 +14,8 @@ namespace Webklex\PHPIMAP\Query;
 
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
+use Webklex\PHPIMAP\Support\LengthAwarePaginator;
+use Webklex\PHPIMAP\Support\Collection;
 use ReflectionException;
 use Webklex\PHPIMAP\Client;
 use Webklex\PHPIMAP\Exceptions\AuthFailedException;
