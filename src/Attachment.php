@@ -12,7 +12,7 @@
 
 namespace Webklex\PHPIMAP;
 
-use Illuminate\Support\Str;
+use Webklex\PHPIMAP\Support\Str;
 use Webklex\PHPIMAP\Decoder\DecoderInterface;
 use Webklex\PHPIMAP\Exceptions\DecoderNotFoundException;
 use Webklex\PHPIMAP\Exceptions\MaskNotFoundException;

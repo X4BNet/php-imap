@@ -13,7 +13,7 @@
 namespace Webklex\PHPIMAP\Query;
 
 use Closure;
-use Illuminate\Support\Str;
+use Webklex\PHPIMAP\Support\Str;
 use Webklex\PHPIMAP\Exceptions\InvalidWhereQueryCriteriaException;
 use Webklex\PHPIMAP\Exceptions\MethodNotFoundException;
 use Webklex\PHPIMAP\Exceptions\MessageSearchValidationException;

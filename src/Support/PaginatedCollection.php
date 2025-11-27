@@ -12,10 +12,6 @@
 
 namespace Webklex\PHPIMAP\Support;
 
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
-use Illuminate\Pagination\Paginator;
-
 /**
  * Class PaginatedCollection
  *

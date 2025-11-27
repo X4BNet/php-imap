@@ -13,7 +13,7 @@
 namespace Webklex\PHPIMAP;
 
 use Exception;
-use Illuminate\Support\Str;
+use Webklex\PHPIMAP\Support\Str;
 use ReflectionClass;
 use ReflectionException;
 use Webklex\PHPIMAP\Decoder\Decoder;

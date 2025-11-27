@@ -12,7 +12,7 @@
 
 namespace Webklex\PHPIMAP\Support\Masks;
 
-use Illuminate\Support\Str;
+use Webklex\PHPIMAP\Support\Str;
 use Webklex\PHPIMAP\Exceptions\MethodNotFoundException;
 
 /**
