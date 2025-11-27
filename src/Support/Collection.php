@@ -131,30 +131,41 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate {
 
         return $this->filter(function ($item) use ($key, $operator, $value) {
             $retrieved = data_get($item, $key);
-
-            switch ($operator) {
-                case '=':
-                case '==':
-                    return $retrieved == $value;
-                case '!=':
-                case '<>':
-                    return $retrieved != $value;
-                case '<':
-                    return $retrieved < $value;
-                case '>':
-                    return $retrieved > $value;
-                case '<=':
-                    return $retrieved <= $value;
-                case '>=':
-                    return $retrieved >= $value;
-                case '===':
-                    return $retrieved === $value;
-                case '!==':
-                    return $retrieved !== $value;
-                default:
-                    return $retrieved == $value;
-            }
+            return $this->compareValues($retrieved, $operator, $value);
         });
+    }
+
+    /**
+     * Compare two values using the given operator.
+     *
+     * @param mixed $retrieved
+     * @param string $operator
+     * @param mixed $value
+     * @return bool
+     */
+    protected function compareValues(mixed $retrieved, string $operator, mixed $value): bool {
+        switch ($operator) {
+            case '=':
+            case '==':
+                return $retrieved == $value;
+            case '!=':
+            case '<>':
+                return $retrieved != $value;
+            case '<':
+                return $retrieved < $value;
+            case '>':
+                return $retrieved > $value;
+            case '<=':
+                return $retrieved <= $value;
+            case '>=':
+                return $retrieved >= $value;
+            case '===':
+                return $retrieved === $value;
+            case '!==':
+                return $retrieved !== $value;
+            default:
+                return $retrieved == $value;
+        }
     }
 
     /**
@@ -483,29 +494,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate {
 
         return $this->contains(function ($item) use ($key, $operator, $value) {
             $retrieved = data_get($item, $key);
-
-            switch ($operator) {
-                case '=':
-                case '==':
-                    return $retrieved == $value;
-                case '!=':
-                case '<>':
-                    return $retrieved != $value;
-                case '<':
-                    return $retrieved < $value;
-                case '>':
-                    return $retrieved > $value;
-                case '<=':
-                    return $retrieved <= $value;
-                case '>=':
-                    return $retrieved >= $value;
-                case '===':
-                    return $retrieved === $value;
-                case '!==':
-                    return $retrieved !== $value;
-                default:
-                    return $retrieved == $value;
-            }
+            return $this->compareValues($retrieved, $operator, $value);
         });
     }
 
