@@ -392,7 +392,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate {
      * @return bool
      */
     public function offsetExists(mixed $offset): bool {
-        return isset($this->items[$offset]);
+        return array_key_exists($offset, $this->items);
     }
 
     /**
@@ -475,8 +475,37 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate {
             return in_array($key, $this->items);
         }
 
+        // Handle two-argument form: contains('key', 'value') means equality
+        if (func_num_args() === 2) {
+            $value = $operator;
+            $operator = '=';
+        }
+
         return $this->contains(function ($item) use ($key, $operator, $value) {
-            return data_get($item, $key) === $value;
+            $retrieved = data_get($item, $key);
+
+            switch ($operator) {
+                case '=':
+                case '==':
+                    return $retrieved == $value;
+                case '!=':
+                case '<>':
+                    return $retrieved != $value;
+                case '<':
+                    return $retrieved < $value;
+                case '>':
+                    return $retrieved > $value;
+                case '<=':
+                    return $retrieved <= $value;
+                case '>=':
+                    return $retrieved >= $value;
+                case '===':
+                    return $retrieved === $value;
+                case '!==':
+                    return $retrieved !== $value;
+                default:
+                    return $retrieved == $value;
+            }
         });
     }
 

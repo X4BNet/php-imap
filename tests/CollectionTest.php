@@ -298,6 +298,41 @@ class CollectionTest extends TestCase {
     }
 
     /**
+     * Test contains method with comparison operators
+     *
+     * @return void
+     */
+    public function testContainsWithOperators(): void {
+        $collection = new Collection([
+            (object)['name' => 'John', 'age' => 30],
+            (object)['name' => 'Jane', 'age' => 25],
+            (object)['name' => 'Bob', 'age' => 35],
+        ]);
+        
+        // Test with two arguments (key, value) - equality comparison
+        self::assertTrue($collection->contains('age', 30));
+        self::assertFalse($collection->contains('age', 40));
+        
+        // Test with three arguments (key, operator, value)
+        self::assertTrue($collection->contains('age', '>', 30));
+        self::assertFalse($collection->contains('age', '>', 40));
+        
+        self::assertTrue($collection->contains('age', '<', 30));
+        self::assertFalse($collection->contains('age', '<', 25));
+        
+        self::assertTrue($collection->contains('age', '>=', 35));
+        self::assertTrue($collection->contains('age', '<=', 25));
+        
+        self::assertTrue($collection->contains('age', '!=', 40));
+        // contains returns true if ANY item matches, so '!= 30' is true because Jane (25) and Bob (35) don't have age 30
+        self::assertTrue($collection->contains('age', '!=', 30));
+        
+        self::assertTrue($collection->contains('name', '===', 'John'));
+        // '!== John' is true because Jane and Bob exist
+        self::assertTrue($collection->contains('name', '!==', 'John'));
+    }
+
+    /**
      * Test chunk method
      *
      * @return void
@@ -390,5 +425,23 @@ class CollectionTest extends TestCase {
         // When perPage is null, should return full collection
         $result = $collection->forPage(1, null);
         self::assertSame([1, 2, 3, 4, 5], $result->all());
+    }
+
+    /**
+     * Test offsetExists with null values
+     *
+     * @return void
+     */
+    public function testOffsetExistsWithNullValues(): void {
+        $collection = new Collection();
+        $collection->put('foo', null);
+        
+        // Key exists even though value is null
+        self::assertTrue(isset($collection['foo']));
+        self::assertTrue($collection->has('foo'));
+        self::assertNull($collection->get('foo'));
+        
+        // Key doesn't exist
+        self::assertFalse(isset($collection['bar']));
     }
 }
