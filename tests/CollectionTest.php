@@ -351,4 +351,44 @@ class CollectionTest extends TestCase {
         self::assertSame(3, $popped);
         self::assertSame([1, 2], $collection->all());
     }
+
+    /**
+     * Test where method
+     *
+     * @return void
+     */
+    public function testWhere(): void {
+        $collection = new Collection([
+            (object)['name' => 'John', 'age' => 30],
+            (object)['name' => 'Jane', 'age' => 25],
+            (object)['name' => 'Bob', 'age' => 30],
+        ]);
+        
+        // Test with two arguments (key, value)
+        $filtered = $collection->where('age', 30);
+        self::assertCount(2, $filtered);
+        
+        // Test with three arguments (key, operator, value)
+        $filtered = $collection->where('age', '>', 25);
+        self::assertCount(2, $filtered);
+        
+        $filtered = $collection->where('age', '<', 30);
+        self::assertCount(1, $filtered);
+        
+        $filtered = $collection->where('name', '===', 'John');
+        self::assertCount(1, $filtered);
+    }
+
+    /**
+     * Test forPage method with null perPage
+     *
+     * @return void
+     */
+    public function testForPageWithNull(): void {
+        $collection = new Collection([1, 2, 3, 4, 5]);
+        
+        // When perPage is null, should return full collection
+        $result = $collection->forPage(1, null);
+        self::assertSame([1, 2, 3, 4, 5], $result->all());
+    }
 }

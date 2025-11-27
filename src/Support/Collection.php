@@ -116,6 +116,48 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate {
     }
 
     /**
+     * Filter items by the given key value pair.
+     *
+     * @param string $key
+     * @param mixed $operator
+     * @param mixed $value
+     * @return static
+     */
+    public function where(string $key, mixed $operator = null, mixed $value = null): static {
+        if (func_num_args() === 2) {
+            $value = $operator;
+            $operator = '=';
+        }
+
+        return $this->filter(function ($item) use ($key, $operator, $value) {
+            $retrieved = data_get($item, $key);
+
+            switch ($operator) {
+                case '=':
+                case '==':
+                    return $retrieved == $value;
+                case '!=':
+                case '<>':
+                    return $retrieved != $value;
+                case '<':
+                    return $retrieved < $value;
+                case '>':
+                    return $retrieved > $value;
+                case '<=':
+                    return $retrieved <= $value;
+                case '>=':
+                    return $retrieved >= $value;
+                case '===':
+                    return $retrieved === $value;
+                case '!==':
+                    return $retrieved !== $value;
+                default:
+                    return $retrieved == $value;
+            }
+        });
+    }
+
+    /**
      * Get the first item from the collection.
      *
      * @param callable|null $callback
@@ -296,10 +338,13 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate {
      * Get a slice of items from the collection for a page.
      *
      * @param int $page
-     * @param int $perPage
+     * @param int|null $perPage
      * @return static
      */
-    public function forPage(int $page, int $perPage): static {
+    public function forPage(int $page, ?int $perPage = null): static {
+        if ($perPage === null) {
+            return $this;
+        }
         $offset = max(0, ($page - 1) * $perPage);
 
         return new static(array_slice($this->items, $offset, $perPage, true));
